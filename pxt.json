@@ -1,7 +1,7 @@
 {
     "name": "pxt-raycasting",
     "version": "0.3.16",
-    "description": "",
+    "description": "AqeeAqee's raycasting extension featuring MrFranko's floor rendering.",
     "dependencies": {
         "device": "*"
     },
