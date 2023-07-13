@@ -408,8 +408,6 @@ namespace Render {
         private getTilemapDimensions(): void {
             let tm = game.currentScene().tileMap;
 
-            
-            const height = tm.areaHeight() >> tm.scale;
             this.tilemapCols = tm.areaWidth() >> tm.scale;
             this.tilemapRows = tm.areaHeight() >> tm.scale;
         }
