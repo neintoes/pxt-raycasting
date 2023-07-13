@@ -46,6 +46,8 @@ namespace Render {
         protected isWalking = false
         protected cameraOffsetX = 0
         protected cameraOffsetZ_fpx = 0
+        protected tilemapRows: number
+        protected tilemapCols: number
 
         //sprites & accessories
         sprSelf: Sprite
@@ -336,6 +338,7 @@ namespace Render {
             this._angle = 0
             this.fov = defaultFov
             this.camera = new scene.Camera()
+            this.initialiseTilemapDimensions();
 
             const sc = game.currentScene()
             if (!sc.tileMap) {
@@ -400,6 +403,11 @@ namespace Render {
                         updateScreen(screen)
                 })
             })
+        }
+
+        private initialiseTilemapDimensions() {
+            this.tilemapRows = tiles.tilemapRows();
+            this.tilemapCols = tiles.tilemapCols();
         }
 
         private setVectors() {
@@ -543,8 +551,8 @@ namespace Render {
                     let ty = (16 * (floorY - cellY)) & 15;
                     
                     // Ensure mapX and mapY are within the range of the tilemap dimensions.
-                    let mapX = Math.round(floorX - 0.5) % 40;
-                    let mapY = Math.round(floorY - 0.5) % 40;
+                    let mapX = Math.round(floorX - 0.5) % this.tilemapRows;
+                    let mapY = Math.round(floorY - 0.5) % this.tilemapCols;
                     
                     // If mapX or mapY is negative, make them positive by adding the tilemap dimensions.
                     // This is necessary because JavaScript's % operator can result in negative values.
