@@ -540,8 +540,8 @@ namespace Render {
                      let cellY = Math.floor(floorY)
                     let tx =  (16 * (floorX - cellX)) & 15
                       let ty = (16 * (floorY - cellY)) & (15)
-                    let mapX = Math.round(floorX - 0.5) % 16
-                    let mapY = Math.round(floorY - 0.5) % 16
+                    let mapX = Math.round(floorX - 0.5) % 40
+                    let mapY = Math.round(floorY - 0.5) % 40
                     let tileType = this.map.getTile(mapX, mapY)
                     let floorTex = this.textures[tileType]
                     floorX += floorStepX
