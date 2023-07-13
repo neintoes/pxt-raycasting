@@ -411,7 +411,6 @@ namespace Render {
             this.planeY = tofpx(cos * -this._fov)
         }
 
-
         //todo, pre-drawn dirctional image
         public updateSelfImage() {
             const img = this.sprSelf.image
@@ -537,32 +536,21 @@ namespace Render {
                 let floorX = fmapX + rowDistance * rayDirX0
                 let floorY = fmapY + rowDistance * rayDirY0
                 for (let x = 0; x < SW; x++) {
-                    let cellX = Math.floor(floorX);
-                    let cellY = Math.floor(floorY);
-                    let tx =  (16 * (floorX - cellX)) & 15;
-                    let ty = (16 * (floorY - cellY)) & 15;
-                    
-                    // Ensure mapX and mapY are within the range of the tilemap dimensions.
-                    let mapX = Math.round(floorX - 0.5) % 40;
-                    let mapY = Math.round(floorY - 0.5) % 40;
-                    
-                    // If mapX or mapY is negative, make them positive by adding the tilemap dimensions.
-                    // This is necessary because JavaScript's % operator can result in negative values.
-                    if (mapX < 0) {
-                        mapX += tilemapWidth;
-                    }
-                    if (mapY < 0) {
-                        mapY += tilemapHeight;
-                    }
-                    
-                    let tileType = this.map.getTile(mapX, mapY);
-                    let floorTex = this.textures[tileType];
-                    floorX += floorStepX;
-                    floorY += floorStepY;
-                    let c = floorTex.getPixel(tx, ty);
-                    this.tempScreen.setPixel(x, y, c);
+                      let cellX = Math.floor(floorX)
+                     let cellY = Math.floor(floorY)
+                    let tx =  (16 * (floorX - cellX)) & 15
+                      let ty = (16 * (floorY - cellY)) & (15)
+                    let mapX = Math.round(floorX - 0.5) % 16
+                    let mapY = Math.round(floorY - 0.5) % 16
+                    let tileType = this.map.getTile(mapX, mapY)
+                    let floorTex = this.textures[tileType]
+                    floorX += floorStepX
+                    floorY += floorStepY
+                    let c = floorTex.getPixel(tx, ty)
+                    this.tempScreen.setPixel(x, y, c)
+
                 }
-                
+
 
 
             }
@@ -841,4 +829,3 @@ namespace Render {
     //%fixedinstance
     export const raycastingRender = new Render.RayCastingRender()
 }
-
