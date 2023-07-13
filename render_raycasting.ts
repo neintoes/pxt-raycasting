@@ -70,6 +70,9 @@ namespace Render {
         protected wallHeightInView: number
         protected wallWidthInView: number
         protected dist: number[] = []
+        protected tilemapRows: number
+        protected tilemapCols: number
+
         //render perf const
         cameraRangeAngle: number
         viewZPos: number
@@ -329,7 +332,7 @@ namespace Render {
             //     scene.TILE_MAP_Z,
             //     (t, c) => this.trace(t, c)
             // )
-
+            this.getTilemapDimensions()
         }
 
         constructor() {
@@ -400,6 +403,15 @@ namespace Render {
                         updateScreen(screen)
                 })
             })
+        }
+
+        private getTilemapDimensions(): void {
+            let tm = game.currentScene().tileMap;
+
+            
+            const height = tm.areaHeight() >> tm.scale;
+            this.tilemapCols = tm.areaWidth() >> tm.scale;
+            this.tilemapRows = tm.areaHeight() >> tm.scale;
         }
 
         private setVectors() {
@@ -540,8 +552,8 @@ namespace Render {
                      let cellY = Math.floor(floorY)
                     let tx =  (16 * (floorX - cellX)) & 15
                       let ty = (16 * (floorY - cellY)) & (15)
-                    let mapX = Math.round(floorX - 0.5) % 40
-                    let mapY = Math.round(floorY - 0.5) % 40
+                    let mapX = Math.round(floorX - 0.5) % this.tilemapRows
+                    let mapY = Math.round(floorY - 0.5) % this.tilemapCols
                     let tileType = this.map.getTile(mapX, mapY)
                     let floorTex = this.textures[tileType]
                     floorX += floorStepX
