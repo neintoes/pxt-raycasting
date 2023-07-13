@@ -551,8 +551,8 @@ namespace Render {
                     let ty = (16 * (floorY - cellY)) & 15;
                     
                     // Ensure mapX and mapY are within the range of the tilemap dimensions.
-                    let mapX = Math.round(floorX - 0.5) % tilemapWidth;
-                    let mapY = Math.round(floorY - 0.5) % tilemapHeight;
+                    let mapX = Math.round(floorX - 0.5) % this.tilemapRows;
+                    let mapY = Math.round(floorY - 0.5) % this.tilemapCols;
                     
                     // If mapX or mapY is negative, make them positive by adding the tilemap dimensions.
                     // This is necessary because JavaScript's % operator can result in negative values.
