@@ -46,8 +46,6 @@ namespace Render {
         protected isWalking = false
         protected cameraOffsetX = 0
         protected cameraOffsetZ_fpx = 0
-        protected tilemapRows: number
-        protected tilemapCols: number
 
         //sprites & accessories
         sprSelf: Sprite
@@ -338,7 +336,6 @@ namespace Render {
             this._angle = 0
             this.fov = defaultFov
             this.camera = new scene.Camera()
-            this.initialiseTilemapDimensions();
 
             const sc = game.currentScene()
             if (!sc.tileMap) {
@@ -405,11 +402,6 @@ namespace Render {
             })
         }
 
-        private initialiseTilemapDimensions() {
-            this.tilemapRows = tiles.tilemapRows();
-            this.tilemapCols = tiles.tilemapCols();
-        }
-
         private setVectors() {
             const sin = Math.sin(this._angle)
             const cos = Math.cos(this._angle)
@@ -418,7 +410,6 @@ namespace Render {
             this.planeX = tofpx(sin * this._fov)
             this.planeY = tofpx(cos * -this._fov)
         }
-
 
         //todo, pre-drawn dirctional image
         public updateSelfImage() {
@@ -545,32 +536,21 @@ namespace Render {
                 let floorX = fmapX + rowDistance * rayDirX0
                 let floorY = fmapY + rowDistance * rayDirY0
                 for (let x = 0; x < SW; x++) {
-                    let cellX = Math.floor(floorX);
-                    let cellY = Math.floor(floorY);
-                    let tx =  (16 * (floorX - cellX)) & 15;
-                    let ty = (16 * (floorY - cellY)) & 15;
-                    
-                    // Ensure mapX and mapY are within the range of the tilemap dimensions.
-                    let mapX = Math.round(floorX - 0.5) % tilemapWidth;
-                    let mapY = Math.round(floorY - 0.5) % tilemapHeight;
-                    
-                    // If mapX or mapY is negative, make them positive by adding the tilemap dimensions.
-                    // This is necessary because JavaScript's % operator can result in negative values.
-                    if (mapX < 0) {
-                        mapX += tilemapWidth;
-                    }
-                    if (mapY < 0) {
-                        mapY += tilemapHeight;
-                    }
-                    
-                    let tileType = this.map.getTile(mapX, mapY);
-                    let floorTex = this.textures[tileType];
-                    floorX += floorStepX;
-                    floorY += floorStepY;
-                    let c = floorTex.getPixel(tx, ty);
-                    this.tempScreen.setPixel(x, y, c);
+                      let cellX = Math.floor(floorX)
+                     let cellY = Math.floor(floorY)
+                    let tx =  (16 * (floorX - cellX)) & 15
+                      let ty = (16 * (floorY - cellY)) & (15)
+                    let mapX = Math.round(floorX - 0.5) % 16
+                    let mapY = Math.round(floorY - 0.5) % 16
+                    let tileType = this.map.getTile(mapX, mapY)
+                    let floorTex = this.textures[tileType]
+                    floorX += floorStepX
+                    floorY += floorStepY
+                    let c = floorTex.getPixel(tx, ty)
+                    this.tempScreen.setPixel(x, y, c)
+
                 }
-                
+
 
 
             }
